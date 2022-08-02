@@ -9,8 +9,8 @@ import java.sql.Statement;
 public class jdbcTest {
 	public static void main(String[] args) {
 		//readDb();
-		updateDb();
-		
+		//updateDb();
+		insertDb();
 	}
 	
 	static void updateDb() {
@@ -19,6 +19,16 @@ public class jdbcTest {
 			String qry = "update account set balance = 30000 where accno=3";
 			statement.executeUpdate(qry);
 			System.out.println("Successfully updated");
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}
+	}
+	static void insertDb() {
+		try(Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/mydb", "root", "Archu@2000");
+				Statement statement = connection.createStatement();) {
+			String qry = "insert into account values(4,'Max','Lucas',5000)";
+			int rows= statement.executeUpdate(qry);
+			System.out.println("Rows : " + rows);
 		} catch (SQLException e) {
 		e.printStackTrace();
 		}
