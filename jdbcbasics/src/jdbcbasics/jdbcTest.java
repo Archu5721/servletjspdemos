@@ -8,15 +8,25 @@ import java.sql.Statement;
 
 public class jdbcTest {
 	public static void main(String[] args) {
-		//readDb();
+		readDb();
 		//updateDb();
-		insertDb();
+		//insertDb();
+		//deleteDb();
 	}
-	
+	static void deleteDb() {
+		try(Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/mydb", "root", "Archu@2000");
+				Statement statement = connection.createStatement();) {
+			String qry = "delete from account where accno=1";
+			statement.executeUpdate(qry);
+			System.out.println("Successfully deleted");
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}
+	}
 	static void updateDb() {
 		try(Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/mydb", "root", "Archu@2000");
 				Statement statement = connection.createStatement();) {
-			String qry = "update account set balance = 30000 where accno=3";
+			String qry = "update account set accno=2 where accno=4";
 			statement.executeUpdate(qry);
 			System.out.println("Successfully updated");
 		} catch (SQLException e) {
