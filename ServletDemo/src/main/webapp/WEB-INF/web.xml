@@ -29,6 +29,14 @@
 		<servlet-name>additionServlet</servlet-name>
 		<url-pattern>/additionServlet</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>valServlet</servlet-name>
+		<servlet-class>com.servlets.example.valServlet</servlet-class>
+	</servlet>
 	
+	<servlet-mapping>
+		<servlet-name>valServlet</servlet-name>
+		<url-pattern>/validate</url-pattern>
+	</servlet-mapping>
 </web-app>
 
