@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -42,10 +43,12 @@ public class AddUserServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
-		try (Statement statement = connection.createStatement();) {
-			String qry = "insert into user values('" + firstname + "', '" + lastname + "', '" + email + "', '"+ password + "')";
-			int rows = statement.executeUpdate(qry);
-			System.out.println("Query being executed: " + qry);
+		try (PreparedStatement statement = connection.prepareStatement("insert into user values(?,?,?,?)");) {
+			statement.setString(1, firstname);
+			statement.setString(2, lastname);
+			statement.setString(3, email);
+			statement.setString(4, password);
+			int rows = statement.executeUpdate();
 			System.out.println("Rows : " + rows);
 			PrintWriter out = response.getWriter();
 			out.println("User Added!!!");

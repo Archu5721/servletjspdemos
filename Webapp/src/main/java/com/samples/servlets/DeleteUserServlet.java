@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -39,10 +40,9 @@ public class DeleteUserServlet extends HttpServlet {
 		
 		String email = request.getParameter("email");
 		
-		try (Statement statement = connection.createStatement();) {
-			String qry = "delete from user where email='"+email +"'";
-			int rowsDeleted = statement.executeUpdate(qry);
-			System.out.println("Query being executed: " + qry);
+		try (PreparedStatement statement = connection.prepareStatement("delete from user where email = ?");) {
+			statement.setString(1, email);
+			int rowsDeleted = statement.executeUpdate();
 			System.out.println("Rows : " + rowsDeleted);
 			PrintWriter out = response.getWriter();
 			out.println("Hurray Deleted!!!");

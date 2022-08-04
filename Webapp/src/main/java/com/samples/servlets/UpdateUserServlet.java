@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -40,10 +41,11 @@ public class UpdateUserServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
-		try (Statement statement = connection.createStatement();) {
-			String qry = "update user set password=' " + password + "'where email='"+email +"'";
-			int rowsUpdated = statement.executeUpdate(qry);
-			System.out.println("Query being executed: " + qry);
+		try (PreparedStatement statement = connection.prepareStatement("update user set password=? where email=?");) {
+			
+			statement.setString(1, password);
+			statement.setString(2, email);
+			int rowsUpdated = statement.executeUpdate();
 			System.out.println("Rows : " + rowsUpdated);
 			PrintWriter out = response.getWriter();
 			out.println("Hurray Updated!!!");
